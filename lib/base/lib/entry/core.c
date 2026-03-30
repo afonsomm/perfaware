@@ -144,11 +144,22 @@ internalf void cmd_line_args_init(s32 argc, s8* argv[]) {
 			arg_str = str8_cstr((u8*)arg_cstr);
 			curr_arg = cmd_line_args_get_arg_(arg_str, 0);
 			if(curr_arg) {
+
+				if(flag_arg) {
+					if(flag_arg_value_i == flag_arg->values_cap) {
+						flag_arg->set = 1;
+					} else {
+						raise();  // DEBUG: if there is a flag_arg all the values up to cap have to be passed in	
+					}
+				}
+				
 				flag_arg = curr_arg;
-				flag_arg->set = 1;
 				flag_arg_value_i = 0;
+				
+				if(flag_arg->values_cap == 0) {  // NOTE: needed if the last arg has no values
+					flag_arg->set = 1;
+				}
 			} else if(flag_arg && (flag_arg_value_i < flag_arg->values_cap)) {
-				assert(flag_arg_value_i < flag_arg->values_cap);  // DEBUG
 				flag_arg->values[flag_arg_value_i] = arg_str;
 				flag_arg_value_i += 1;
 			}
@@ -186,7 +197,6 @@ internalf void cmd_line_args_add_flags_from_params(CmdLineArgParams* args_params
 		}
 	}
 }
-
 
 internalf CmdLineArg* cmd_line_args_get_arg_(String8 name, b8 has_to_be_set) {
 	CmdLineArg* result = (CmdLineArg*)0;

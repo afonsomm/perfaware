@@ -201,7 +201,7 @@ When transversing the list, we use container_of(object.node.next, ObjectType, no
 #define enum8(T)  u8
 #define enum16(T) u16
 #define enum32(T) u32
-//#define enum64(T) u64  // NOTE: i think this cannot happen in C, so use a typedef u64 Flags followed by macros that define each flags
+#define enum64(T) u64
 
 // ------ Integer Thresholds
 #define S8_MIN  0x80
@@ -259,6 +259,8 @@ When transversing the list, we use container_of(object.node.next, ObjectType, no
 #endif
 
 #if ASAN_ENABLED
+C_LINKAGE void __asan_poison_memory_region(void const volatile * addr, u64 size);
+C_LINKAGE void __asan_unpoison_memory_region(void const volatile * addr, u64 size);
 # define asan_poison_memory_region(addr, size)   __asan_poison_memory_region((addr), (size))
 # define asan_unpoison_memory_region(addr, size) __asan_unpoison_memory_region((addr), (size))
 #else
@@ -505,13 +507,6 @@ internalf void mem_commit(void* ptr, u64 size);
 internalf void mem_decommit(void* ptr, u64 size);
 internalf void mem_release(void* ptr, u64 size);
 // ---- Lower-level memory operations
-
-// ---- Address Sanitizer
-#if ASAN_ENABLED
-C_LINKAGE void __asan_poison_memory_region(void const volatile * addr, u64 size);
-C_LINKAGE void __asan_unpoison_memory_region(void const volatile * addr, u64 size);
-#endif
-// ---- Address Sanitizer
 
 // ---- Allocate
 internalf void* allocate(Allocator* allocator, u64 size);

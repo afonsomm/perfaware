@@ -12,14 +12,14 @@
 // -- Functions
 
 // ---- Bitmasks
-internalf u64 bitmask(u8 index) {
-    return ((u64)1 << index) - 1;
+internalf u64 bitmask(u8 number) {
+    return ((u64)1 << number) - 1;
 }
 // ---- Bitmasks
 
 // ---- Single Bits
-internalf u64 bit(u8 index) {
-    return (u64)1 << index;
+internalf u64 bit(u8 number) {
+    return (u64)1 << number;
 }
 // ---- Single Bits
 

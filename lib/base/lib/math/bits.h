@@ -166,11 +166,11 @@ As said in the general guidelines, almost all this functions are one-lines, whic
 // -- Functions
 
 // ---- Bitmasks
-internalf u64 bitmask(u8 index);
+internalf u64 bitmask(u8 number);
 // ---- Bitmasks
 
 // ---- Single Bits
-internalf u64 bit(u8 index);
+internalf u64 bit(u8 number);
 // ---- Single Bits
 
 // ------ Bitsets
